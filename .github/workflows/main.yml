@@ -1,0 +1,32 @@
+#np.vstack(((K,np.atleast_2d(S))))
+"""
+Программа считывает генерируемые ANSYS списки данных и преобразует их в человеческом виде.
+"""
+import numpy as np
+import re
+import matplotlib.pyplot as plt
+L=list()
+Lr=list()
+R=list()
+Rr=list()
+"check работает как надо!"
+def check(string):
+    dig = sum(1 for i in string if i.isdigit())
+    return dig
+nameinput=input('Название файла в виде ИМЯ.lis:')
+nameoutput=input('Название файла результата')+'.csv'
+
+with open(nameinput,encoding='UTF-8') as f:
+    for line in f:
+        Ln=line[0:14]
+        L.append(Ln)
+        Rn=line[14:14+20]
+        R.append(Rn)
+    for kk in range(0,len(L)):
+        if (check(L[kk])>=5):
+            Lr.append(float(L[kk]))
+            Rr.append(float(R[kk]))
+    TOTAL=np.zeros([len(Lr),2])
+    TOTAL[:,0]=Lr[:]
+    TOTAL[:,1]=Rr[:]
+    np.savetxt(nameoutput,TOTAL,delimiter=" ")
